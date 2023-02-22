@@ -1,0 +1,23 @@
+# ignore ALL .log files
+*.log
+
+# ignore ALL files in ANY directory named temp
+temp/
+
+# ignore ALL .o files 
+*.o 
+
+# ignore ALL .s files 
+*.s 
+
+# ignore executables 
+Multiple_Instruments 
+Sinewave
+Synth
+
+
+
+
+.DS_Store
+
+__pycache__
