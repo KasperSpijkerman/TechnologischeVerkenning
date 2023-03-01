@@ -1,0 +1,8 @@
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/ninja -G Ninja -S "/Volumes/SSD Kasper 1/HKU/Jaar_2/CSD2/Juce_Projects/Projects/LowHighPassFilter" -B "/Volumes/SSD Kasper 1/HKU/Jaar_2/CSD2/Juce_Projects/Projects/LowHighPassFilter/cmake-build-debug"
+CMake Error at CMakeLists.txt:40 (juce_add_plugin):
+  Unknown CMake command "juce_add_plugin".
+
+
+-- Configuring incomplete, errors occurred!
+See also "/Volumes/SSD Kasper 1/HKU/Jaar_2/CSD2/Juce_Projects/Projects/LowHighPassFilter/cmake-build-debug/CMakeFiles/CMakeOutput.log".
+See also "/Volumes/SSD Kasper 1/HKU/Jaar_2/CSD2/Juce_Projects/Projects/LowHighPassFilter/cmake-build-debug/CMakeFiles/CMakeError.log".

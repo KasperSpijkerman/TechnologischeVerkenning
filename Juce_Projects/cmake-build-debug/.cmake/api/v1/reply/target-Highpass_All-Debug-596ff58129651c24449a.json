@@ -1,0 +1,107 @@
+{
+	"backtrace" : 3,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"_juce_configure_plugin_targets",
+			"juce_add_plugin",
+			"add_dependencies",
+			"_juce_link_plugin_wrapper"
+		],
+		"files" : 
+		[
+			"JUCE/extras/Build/CMake/JUCEUtils.cmake",
+			"Projects/LowHighPassFilter/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 40,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 1770,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 1225,
+				"parent" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 1229,
+				"parent" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 1085,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 1229,
+				"parent" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 1085,
+				"parent" : 6
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 1229,
+				"parent" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 1085,
+				"parent" : 8
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "Highpass_Standalone::@d02ca3e276270a24d376"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "Highpass_AU::@d02ca3e276270a24d376"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "Highpass_VST3::@d02ca3e276270a24d376"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "Highpass"
+	},
+	"id" : "Highpass_All::@d02ca3e276270a24d376",
+	"name" : "Highpass_All",
+	"paths" : 
+	{
+		"build" : "Projects/LowHighPassFilter",
+		"source" : "Projects/LowHighPassFilter"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

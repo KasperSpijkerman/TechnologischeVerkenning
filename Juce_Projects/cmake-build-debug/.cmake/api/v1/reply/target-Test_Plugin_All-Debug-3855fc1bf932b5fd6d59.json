@@ -1,0 +1,107 @@
+{
+	"backtrace" : 3,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"_juce_configure_plugin_targets",
+			"juce_add_plugin",
+			"add_dependencies",
+			"_juce_link_plugin_wrapper"
+		],
+		"files" : 
+		[
+			"JUCE/extras/Build/CMake/JUCEUtils.cmake",
+			"Projects/Test_Plugin/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 40,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 1770,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 1225,
+				"parent" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 1229,
+				"parent" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 1085,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 1229,
+				"parent" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 1085,
+				"parent" : 6
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 1229,
+				"parent" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 1085,
+				"parent" : 8
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "Test_Plugin_Standalone::@90a00b0587f8ac702b29"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "Test_Plugin_AU::@90a00b0587f8ac702b29"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "Test_Plugin_VST3::@90a00b0587f8ac702b29"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "Test_Plugin"
+	},
+	"id" : "Test_Plugin_All::@90a00b0587f8ac702b29",
+	"name" : "Test_Plugin_All",
+	"paths" : 
+	{
+		"build" : "Projects/Test_Plugin",
+		"source" : "Projects/Test_Plugin"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

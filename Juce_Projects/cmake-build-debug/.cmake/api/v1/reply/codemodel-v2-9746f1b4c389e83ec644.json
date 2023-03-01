@@ -1,0 +1,351 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						5,
+						8
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "JUCE",
+					"childIndexes" : 
+					[
+						2,
+						3
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-JUCE-Debug-1ea34fccb5a6921f2158.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "JUCE"
+				},
+				{
+					"build" : "JUCE/modules",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-JUCE.modules-Debug-0b8c285ba2dd819cfc67.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "JUCE/modules"
+				},
+				{
+					"build" : "JUCE/extras/Build",
+					"childIndexes" : 
+					[
+						4
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-JUCE.extras.Build-Debug-da8f8edfa979b2c5464a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "JUCE/extras/Build"
+				},
+				{
+					"build" : "JUCE/extras/Build/juceaide",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-JUCE.extras.Build.juceaide-Debug-63cd8ea7b53c47ca052d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "JUCE/extras/Build/juceaide"
+				},
+				{
+					"build" : "Projects",
+					"childIndexes" : 
+					[
+						6,
+						7
+					],
+					"jsonFile" : "directory-Projects-Debug-4e5c604529c67e69a2d7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Projects"
+				},
+				{
+					"build" : "Projects/Test_Plugin",
+					"jsonFile" : "directory-Projects.Test_Plugin-Debug-d339541b44a9ccc7ca34.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 2,
+					"source" : "Projects/Test_Plugin",
+					"targetIndexes" : 
+					[
+						5,
+						6,
+						7,
+						8,
+						9
+					]
+				},
+				{
+					"build" : "Projects/LowHighPassFilter",
+					"jsonFile" : "directory-Projects.LowHighPassFilter-Debug-6650c99c21553075b869.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 3,
+					"source" : "Projects/LowHighPassFilter",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				},
+				{
+					"build" : "Libraries",
+					"childIndexes" : 
+					[
+						9,
+						10
+					],
+					"jsonFile" : "directory-Libraries-Debug-e8f09d550bf1415af829.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Libraries"
+				},
+				{
+					"build" : "Libraries/Utilities",
+					"jsonFile" : "directory-Libraries.Utilities-Debug-7e838e5e82454411a4bc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 8,
+					"projectIndex" : 0,
+					"source" : "Libraries/Utilities",
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"build" : "Libraries/CircBuffer",
+					"jsonFile" : "directory-Libraries.CircBuffer-Debug-27936faaf6ab51f30799.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 8,
+					"projectIndex" : 0,
+					"source" : "Libraries/CircBuffer",
+					"targetIndexes" : 
+					[
+						11
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						5,
+						8,
+						9,
+						10
+					],
+					"name" : "Projects",
+					"targetIndexes" : 
+					[
+						10,
+						11
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4
+					],
+					"name" : "JUCE",
+					"parentIndex" : 0
+				},
+				{
+					"directoryIndexes" : 
+					[
+						6
+					],
+					"name" : "Test_Plugin",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						5,
+						6,
+						7,
+						8,
+						9
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						7
+					],
+					"name" : "Highpass",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 7,
+					"id" : "Highpass::@d02ca3e276270a24d376",
+					"jsonFile" : "target-Highpass-Debug-3ed977601360b05a73b7.json",
+					"name" : "Highpass",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "Highpass_AU::@d02ca3e276270a24d376",
+					"jsonFile" : "target-Highpass_AU-Debug-2d3e2b99ad665752d27f.json",
+					"name" : "Highpass_AU",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "Highpass_All::@d02ca3e276270a24d376",
+					"jsonFile" : "target-Highpass_All-Debug-596ff58129651c24449a.json",
+					"name" : "Highpass_All",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "Highpass_Standalone::@d02ca3e276270a24d376",
+					"jsonFile" : "target-Highpass_Standalone-Debug-47e7dd8ca6fa7f9f980a.json",
+					"name" : "Highpass_Standalone",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "Highpass_VST3::@d02ca3e276270a24d376",
+					"jsonFile" : "target-Highpass_VST3-Debug-7421520e6462671bf382.json",
+					"name" : "Highpass_VST3",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "Test_Plugin::@90a00b0587f8ac702b29",
+					"jsonFile" : "target-Test_Plugin-Debug-91a99c25f0cbdf34aca9.json",
+					"name" : "Test_Plugin",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "Test_Plugin_AU::@90a00b0587f8ac702b29",
+					"jsonFile" : "target-Test_Plugin_AU-Debug-b2a067d44599cc82ca37.json",
+					"name" : "Test_Plugin_AU",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "Test_Plugin_All::@90a00b0587f8ac702b29",
+					"jsonFile" : "target-Test_Plugin_All-Debug-3855fc1bf932b5fd6d59.json",
+					"name" : "Test_Plugin_All",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "Test_Plugin_Standalone::@90a00b0587f8ac702b29",
+					"jsonFile" : "target-Test_Plugin_Standalone-Debug-d4b34fba7bb264ec0f70.json",
+					"name" : "Test_Plugin_Standalone",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "Test_Plugin_VST3::@90a00b0587f8ac702b29",
+					"jsonFile" : "target-Test_Plugin_VST3-Debug-f4a9c1364bb5ff28b452.json",
+					"name" : "Test_Plugin_VST3",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "Utilities::@795adb90fec59547e820",
+					"jsonFile" : "target-Utilities-Debug-3c59ae018203fd0cbdf9.json",
+					"name" : "Utilities",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "circBuffer::@dba9873f9f19d8ec7e0b",
+					"jsonFile" : "target-circBuffer-Debug-970b3ddd5aabb4d9050e.json",
+					"name" : "circBuffer",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Volumes/SSD Kasper 1/HKU/Jaar_2/CSD2/Juce_Projects/cmake-build-debug",
+		"source" : "/Volumes/SSD Kasper 1/HKU/Jaar_2/CSD2/Juce_Projects"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}
