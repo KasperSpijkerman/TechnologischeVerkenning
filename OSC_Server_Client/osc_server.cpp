@@ -33,16 +33,42 @@
 
 
 // subclass OSC into a local class so we can provide our own callback
-class localOSC : public OSC
+class GyroOSC : public OSC
 {
   int realcallback(const char *path,const char *types,lo_arg **argv,int argc)
   {
   string msgpath=path;
     cout.precision(4);
     cout << "path: " << msgpath << endl;
-    if(!msgpath.compare("/ZIGSIM/1234/battery")){
-      float ch1 = argv[0]->f;
-      cout << "Message: " << ch1  << "\n" ;
+    if(!msgpath.compare("/ZIGSIM/1234/gyro")){
+      float x = argv[0]->f; //variable for storing the x position of gyro
+      float y = argv[1]->f; //variable for storing the y position of gyro
+      float z = argv[2]->f; //variable for storing the z position of gyro
+
+      cout << "x pos gyro: " << x << "\n" ;
+      cout << "y pos gyro: " << y << "\n" ;
+      cout << "z pos gyro: " << z << "\n" ;
+    } // if
+
+    return 0;
+  } // realcallback()
+};
+
+class AccelOSC : public OSC
+{
+  int realcallback(const char *path,const char *types,lo_arg **argv,int argc)
+  {
+  string msgpath=path;
+    cout.precision(4);
+    cout << "path: " << msgpath << endl;
+    if(!msgpath.compare("/poop")){
+      float x = argv[0]->f; //variable for storing the x position of gyro
+      float y = argv[1]->f; //variable for storing the y position of gyro
+      float z = argv[2]->f; //variable for storing the z position of gyro
+
+      cout << "x pos accel: " << x << "\n" ;
+      cout << "y pos accel: " << y << "\n" ;
+      cout << "z pos accel: " << z << "\n" ;
     } // if
 
     return 0;
@@ -54,12 +80,18 @@ class localOSC : public OSC
 int main()
 {
 int done = 0;
-localOSC osc;
+GyroOSC gyro;
+AccelOSC accel;
 string serverport="7777";
 
-  osc.init(serverport);
-  osc.set_callback("/ZIGSIM/1234/battery","f");
-  osc.start();
+  gyro.init(serverport);
+  gyro.set_callback("/ZIGSIM/1234/gyro","fff");
+  gyro.start();
+  
+  accel.init(serverport);
+  accel.set_callback("/poop","fff");
+  accel.start();
+
   cout << "Listening on port " << serverport << endl;
 
   while (!done) 

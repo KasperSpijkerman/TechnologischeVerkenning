@@ -49,6 +49,7 @@ public:
   OSC();
   void init(string serverport);
   void set_callback(const char *path,const char *types);
+  void set_callback1(const char *path,const char *types);
   void start();
 
   // realcallback is meant to be overridden in a subclass
