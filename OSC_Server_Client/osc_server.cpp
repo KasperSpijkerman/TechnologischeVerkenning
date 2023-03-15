@@ -31,6 +31,11 @@
 
 #include "osc.h"
 
+//function mapInRange to scale numbers of an input range to an output range 
+inline double mapInRange(double factor, double xLow, double xHigh, double yLow, double yHigh){ //dynamic function to calculate a point on y-axes
+    double Output = (yLow * (xHigh - factor) + yHigh * (factor - xLow))/(xHigh - xLow);
+    return Output;
+}
 
 // subclass OSC into a local class so we can provide our own callback
 class LocalOSC : public OSC
@@ -59,17 +64,26 @@ class LocalOSC : public OSC
       float x = argv[0]->f; //variable for storing the x position of gyro
       float y = argv[1]->f; //variable for storing the y position of gyro
       float z = argv[2]->f; //variable for storing the z position of gyro
+      float combinedXYZ = (x+y+z)/3;
+      float combinedSpeed;
+      float xSpeed;
+      if(combinedXYZ < 0.015 && combinedXYZ > -0.015){ //smoothening for sending messages of the X, Y and Z combined 
+        combinedSpeed = 0;
+      } else {
+        combinedSpeed = combinedXYZ;
+      } 
 
-      cout << "x pos accel: " << x << "\n" ;
-      cout << "y pos accel: " << y << "\n" ;
-      cout << "z pos accel: " << z << "\n" ;
+      cout << "x pos accel: " << combinedSpeed << "\n" ;
+      // cout << "y pos accel: " << y << "\n" ;
+      // cout << "z pos accel: " << z << "\n" ;mak
     } // if accel
 
   //COMPASS
     if(!msgpath.compare("/ZIGSIM/1234/compass")){
       float compass = argv[0]->f; //variable for storing the x position of gyro
+      float compassScaled = mapInRange(compass,0,360,0,100); //scaling 0-360 degrees to a value between 0-100 
 
-      cout << "COMPASS: " << compass << "\n" ;
+      cout << "COMPASS: " << compassScaled << "\n" ;
     } // if compass
 
   //BLINK
