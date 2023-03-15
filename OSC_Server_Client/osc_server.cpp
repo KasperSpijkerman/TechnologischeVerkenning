@@ -33,13 +33,16 @@
 
 
 // subclass OSC into a local class so we can provide our own callback
-class GyroOSC : public OSC
+class LocalOSC : public OSC
 {
   int realcallback(const char *path,const char *types,lo_arg **argv,int argc)
   {
   string msgpath=path;
+
     cout.precision(4);
     cout << "path: " << msgpath << endl;
+
+  //GYRO
     if(!msgpath.compare("/ZIGSIM/1234/gyro")){
       float x = argv[0]->f; //variable for storing the x position of gyro
       float y = argv[1]->f; //variable for storing the y position of gyro
@@ -48,20 +51,11 @@ class GyroOSC : public OSC
       cout << "x pos gyro: " << x << "\n" ;
       cout << "y pos gyro: " << y << "\n" ;
       cout << "z pos gyro: " << z << "\n" ;
-    } // if
+      
+    } // if gyro
 
-    return 0;
-  } // realcallback()
-};
-
-class AccelOSC : public OSC
-{
-  int realcallback(const char *path,const char *types,lo_arg **argv,int argc)
-  {
-  string msgpath=path;
-    cout.precision(4);
-    cout << "path: " << msgpath << endl;
-    if(!msgpath.compare("/poop")){
+  //ACCELERATION
+    if(!msgpath.compare("/ZIGSIM/1234/accel")){
       float x = argv[0]->f; //variable for storing the x position of gyro
       float y = argv[1]->f; //variable for storing the y position of gyro
       float z = argv[2]->f; //variable for storing the z position of gyro
@@ -69,7 +63,38 @@ class AccelOSC : public OSC
       cout << "x pos accel: " << x << "\n" ;
       cout << "y pos accel: " << y << "\n" ;
       cout << "z pos accel: " << z << "\n" ;
-    } // if
+    } // if accel
+
+  //COMPASS
+    if(!msgpath.compare("/ZIGSIM/1234/compass")){
+      float compass = argv[0]->f; //variable for storing the x position of gyro
+
+      cout << "COMPASS: " << compass << "\n" ;
+    } // if compass
+
+  //BLINK
+    if(!msgpath.compare("/ZIGSIM/1234/faceeyeblinkleft")){
+      //smoothen blink, if returns 1 the user blinks
+      int blink;
+      if(argv[0]->f > 0.5){
+       blink = 1;
+      }else{
+        blink = 0;
+      }; 
+      cout << "BLINK: " << blink << "\n" ;
+    } // if faceeyeblinkleft
+
+  //SMILE
+    if(!msgpath.compare("/ZIGSIM/1234/facemouthsmileleft")){
+      //smoothen smile, if returns 1 the user smiles
+      int smile;
+      if(argv[0]->f > 0.3){
+       smile = 1;
+      }else{
+        smile = 0;
+      }; 
+      cout << "SMILE: " << smile << "\n" ;
+    } // if facemouthsmileleft
 
     return 0;
   } // realcallback()
@@ -77,20 +102,21 @@ class AccelOSC : public OSC
 
 
 
+
 int main()
 {
 int done = 0;
-GyroOSC gyro;
-AccelOSC accel;
+LocalOSC osc;
 string serverport="7777";
 
-  gyro.init(serverport);
-  gyro.set_callback("/ZIGSIM/1234/gyro","fff");
-  gyro.start();
+  osc.init(serverport);
+  osc.set_callback("/ZIGSIM/1234/gyro","fff");
+  osc.set_callback("/ZIGSIM/1234/accel","fff");
+  osc.set_callback("/ZIGSIM/1234/compass","ff");
+  osc.set_callback("/ZIGSIM/1234/faceeyeblinkleft","f");
+  osc.set_callback("/ZIGSIM/1234/facemouthsmileleft","f");
+  osc.start();
   
-  accel.init(serverport);
-  accel.set_callback("/poop","fff");
-  accel.start();
 
   cout << "Listening on port " << serverport << endl;
 

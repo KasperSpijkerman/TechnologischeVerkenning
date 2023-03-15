@@ -79,11 +79,6 @@ void OSC::set_callback(const char *path,const char *types)
   lo_server_thread_add_method(server,path,types,_wrap_callback,this);
 }
 
-void OSC::set_callback1(const char *path,const char *types)
-{
-  lo_server_thread_add_method(server,path,types,_wrap_callback,this);
-}
-
 
 
 void OSC::start()
