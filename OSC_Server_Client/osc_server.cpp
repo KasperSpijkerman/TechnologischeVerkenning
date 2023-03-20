@@ -68,6 +68,20 @@ class LocalOSC : public OSC
       
     } // if gyro
 
+  //TOUCH
+      if(!msgpath.compare("/ZIGSIM/1234/touch01")){
+      float x = mapInRange(argv[0]->f,-1,1,0,1); //variable for storing the x position of touch
+     //variable for storing the y position of touch
+      cout << "x pos touch " << x << "\n" ;
+      }
+
+      if(!msgpath.compare("/ZIGSIM/1234/touch02")){
+      float y = mapInRange(argv[0]->f,-1,1,1,0); //variable for storing the y position of touch
+     //variable for storing the y position of touch
+      cout << "y pos touch " << y << "\n" ;
+      }
+
+
   //ACCELERATION
     if(!msgpath.compare("/ZIGSIM/1234/accel")){
       double x = argv[0]->f; //variable for storing the x position of gyro
@@ -81,7 +95,7 @@ class LocalOSC : public OSC
       } else {
         smoothX = x;
       }
-      
+
       //smoothen y
       if(y<0.01&&y>-0.01){
         smoothY =0;
@@ -180,6 +194,8 @@ string serverport="7777";
   osc.set_callback("/ZIGSIM/1234/compass","ff");
   osc.set_callback("/ZIGSIM/1234/faceeyeblinkleft","f");
   osc.set_callback("/ZIGSIM/1234/facemouthsmileleft","f");
+  osc.set_callback("/ZIGSIM/1234/touch01","f");
+  osc.set_callback("/ZIGSIM/1234/touch02","f");
   osc.start();
   
 
