@@ -30,16 +30,25 @@
 **********************************************************************/
 
 #include "osc.h"
+#include <cmath>
+#include <thread>
+#include <chrono>
 
 //function mapInRange to scale numbers of an input range to an output range 
 inline double mapInRange(double factor, double xLow, double xHigh, double yLow, double yHigh){ //dynamic function to calculate a point on y-axes
     double Output = (yLow * (xHigh - factor) + yHigh * (factor - xLow))/(xHigh - xLow);
     return Output;
 }
+//variables for tracking the rotations of the phone
+bool tippingpoint = false;
+int compassRotations = 0;
+
+//variables for blinking 
+int blinkAmount = 0;
 
 // subclass OSC into a local class so we can provide our own callback
 class LocalOSC : public OSC
-{
+{ 
   int realcallback(const char *path,const char *types,lo_arg **argv,int argc)
   {
   string msgpath=path;
@@ -61,17 +70,35 @@ class LocalOSC : public OSC
 
   //ACCELERATION
     if(!msgpath.compare("/ZIGSIM/1234/accel")){
-      float x = argv[0]->f; //variable for storing the x position of gyro
-      float y = argv[1]->f; //variable for storing the y position of gyro
-      float z = argv[2]->f; //variable for storing the z position of gyro
-      float combinedXYZ = (x+y+z)/3;
-      float combinedSpeed;
-      float xSpeed;
-      if(combinedXYZ < 0.015 && combinedXYZ > -0.015){ //smoothening for sending messages of the X, Y and Z combined 
-        combinedSpeed = 0;
+      double x = argv[0]->f; //variable for storing the x position of gyro
+      double y = argv[1]->f; //variable for storing the y position of gyro
+      double smoothX;
+      double smoothY;
+
+      //smoothen x 
+      if(x<0.01&&x>-0.01){
+        smoothX =0;
       } else {
-        combinedSpeed = combinedXYZ;
-      } 
+        smoothX = x;
+      }
+      
+      //smoothen y
+      if(y<0.01&&y>-0.01){
+        smoothY =0;
+      } else {
+        smoothY = y;
+      }
+      // float z = argv[2]->f; //variable for storing the z position of gyro
+      float angleXY = atan2(smoothY,smoothX);
+      // float angleScaled = mapInRange(angleXY,0,M_PI,0,M_PI*10);
+      float angleXYscaled = mapInRange(angleXY,0,M_PI,0,100);
+
+      float combinedSpeed = angleXY;
+      // if(angleXY < 0.02 && angleXY > -0.02){ //smoothening for sending messages of the X, Y and Z combined 
+      //   combinedSpeed = 0;
+      // } else {
+      //   combinedSpeed = angleXYscaled;
+      // } 
 
       cout << "x pos accel: " << combinedSpeed << "\n" ;
       // cout << "y pos accel: " << y << "\n" ;
@@ -79,11 +106,27 @@ class LocalOSC : public OSC
     } // if accel
 
   //COMPASS
+   
     if(!msgpath.compare("/ZIGSIM/1234/compass")){
       float compass = argv[0]->f; //variable for storing the x position of gyro
       float compassScaled = mapInRange(compass,0,360,0,100); //scaling 0-360 degrees to a value between 0-100 
+      cout << "COMPASS: " << compassScaled << "\n";
 
-      cout << "COMPASS: " << compassScaled << "\n" ;
+      if(compassScaled>95.0){
+        tippingpoint = true;
+      }
+
+      if(tippingpoint&&compassScaled < 3.0){
+        compassRotations++;
+        cout << "ROTATION: " << compassRotations << "\n";
+        tippingpoint = false;
+      } 
+
+      if(compassRotations >= 10){
+        compassRotations = 0;
+      }
+
+
     } // if compass
 
   //BLINK
@@ -92,10 +135,18 @@ class LocalOSC : public OSC
       int blink;
       if(argv[0]->f > 0.5){
        blink = 1;
+       blinkAmount++;
       }else{
         blink = 0;
       }; 
+
+      if(blinkAmount>50){
+        blinkAmount = 0;
+        }
       cout << "BLINK: " << blink << "\n" ;
+
+
+
     } // if faceeyeblinkleft
 
   //SMILE
