@@ -7,11 +7,11 @@ public:
 	Delay();
 	~Delay();
 
-	float output(float input) ;
+    float output(float input) ;
 	void prepareToPlay(double samplerate) override;
-	void bypass (bool bypass);
 	// function for converting miliseconds to samples 
 	float msToSamp(float ms, double samplerate);
+    void deleteBuffer();
 
 	// setters
 	void setDelayTime(float delayTime);
@@ -27,5 +27,5 @@ private:
     // output
 	float outputDelay { 0 };
     // feedback amount
-	float delayFeedback { 0.5 };
+	float delayFeedback { 0 };
 };

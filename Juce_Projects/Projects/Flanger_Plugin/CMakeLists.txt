@@ -14,7 +14,7 @@ cmake_minimum_required(VERSION 3.15)
 # `project()` command. `project()` sets up some helpful variables that describe source/binary
 # directories, and the current project version. This is a standard CMake command.
 
-project(Flanger VERSION 1.0.0)
+project(SpinFlange VERSION 3.0.3)
 
 # If you've installed JUCE somehow (via a package manager, or directly using the CMake install
 # target), you'll need to tell this project that it depends on the installed copy of JUCE. If you've
@@ -37,8 +37,8 @@ project(Flanger VERSION 1.0.0)
 # the formats specified by the FORMATS arguments. This function accepts many optional arguments.
 # Check the readme at `docs/CMake API.md` in the JUCE repo for the full list.
 
-juce_add_plugin(Flanger
-    VERSION 2.0.0                               # Set this if the plugin version is different to the project version
+juce_add_plugin(SpinFlange
+    VERSION 3.0.2                               # Set this if the plugin version is different to the project version
     # ICON_BIG ...                              # ICON_* arguments specify a path to an image file to use as an icon for the Standalone
     # ICON_SMALL ...
     COMPANY_NAME Uso                            # Specify the name of the plugin's author
@@ -49,10 +49,10 @@ juce_add_plugin(Flanger
     # EDITOR_WANTS_KEYBOARD_FOCUS TRUE/FALSE    # Does the editor need keyboard focus?
     # COPY_PLUGIN_AFTER_BUILD TRUE/FALSE        # Should the plugin be installed to a default location after building?
     PLUGIN_MANUFACTURER_CODE Usoo               # A four-character manufacturer id with at least one upper-case character
-    PLUGIN_CODE Fla1                            # A unique four-character plugin id with exactly one upper-case character
+    PLUGIN_CODE Fla8                            # A unique four-character plugin id with exactly one upper-case character
                                                 # GarageBand 10.3 requires the first letter to be upper-case, and the remaining letters to be lower-case
     FORMATS AU VST3 Standalone                  # The formats to build. Other valid formats are: AAX Unity VST AU AUv3
-    PRODUCT_NAME "SpinFlange")            # The name of the final executable, which can differ from the target name
+    PRODUCT_NAME "SpinFlange")                  # The name of the final executable, which can differ from the target name
 
 # `juce_generate_juce_header` will create a JuceHeader.h for a given target, which will be generated
 # into your build tree. This should be included with `#include <JuceHeader.h>`. The include path for
@@ -60,23 +60,23 @@ juce_add_plugin(Flanger
 # include all your JUCE module headers; if you're happy to include module headers directly, you
 # probably don't need to call this.
 
-# juce_generate_juce_header(AudioPluginExample)
+juce_generate_juce_header(SpinFlange)
 
 # `target_sources` adds source files to a target. We pass the target that needs the sources as the
 # first argument, then a visibility parameter for the sources which should normally be PRIVATE.
 # Finally, we supply a list of source files that will be built into the target. This is a standard
 # CMake command.
 
-target_sources(Flanger
+target_sources(SpinFlange
     PRIVATE
         PluginEditor.cpp
         PluginProcessor.cpp
         effect.cpp
-        oscillator.cpp
-        triangle.cpp
-        circBuffer.cpp
-        delay.cpp
         flanger.cpp
+        triangle.cpp
+        oscillator.cpp
+        delay.cpp
+        circBuffer.cpp
         )
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
@@ -86,7 +86,7 @@ target_sources(Flanger
 # definitions will be visible both to your code, and also the JUCE module code, so for new
 # definitions, pick unique names that are unlikely to collide! This is a standard CMake command.
 
-target_compile_definitions(Flanger
+target_compile_definitions(SpinFlange
     PUBLIC
         # JUCE_WEB_BROWSER and JUCE_USE_CURL would be on by default, but you might not need them.
         JUCE_WEB_BROWSER=0  # If you remove this, add `NEEDS_WEB_BROWSER TRUE` to the `juce_add_plugin` call
@@ -108,10 +108,11 @@ target_compile_definitions(Flanger
 # linked automatically. If we'd generated a binary data target above, we would need to link to it
 # here too. This is a standard CMake command.
 
-target_link_libraries(Flanger
+target_link_libraries(SpinFlange
     PRIVATE
         # AudioPluginData           # If we'd created a binary data target, we'd link to it here
         juce::juce_audio_utils
+        juce::juce_osc
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags

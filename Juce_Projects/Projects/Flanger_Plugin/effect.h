@@ -4,6 +4,7 @@
 class Effect 
 {
 public:    
+    // prepare to play and dry wet
     virtual void prepareToPlay (double sampleRate) = 0;
     void setDryWet(float dryWet);
 protected: 

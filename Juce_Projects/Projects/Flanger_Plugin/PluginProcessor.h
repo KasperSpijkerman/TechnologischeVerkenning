@@ -1,8 +1,18 @@
+/*
+  ==============================================================================
+
+    This file contains the basic framework code for a JUCE plugin processor.
+
+  ==============================================================================
+*/
+
 #pragma once
 
-#include "JuceLibraryCode/JuceHeader.h"
+#include <JuceHeader.h>
 #include "flanger.h"
-
+//==============================================================================
+/**
+*/
 class FlangerAudioProcessor  : public juce::AudioProcessor
                             #if JucePlugin_Enable_ARA
                              , public juce::AudioProcessorARAExtension
@@ -51,16 +61,30 @@ public:
     // creating 2 flanger objects for stereo-flanger
     std::array<Flanger, 2> flangers;
 
-    // variables for the parameters that are going to be changed.
-    float dryWet;
-    float feedback;
-    float rateL;
-    float rateR;
-    float depthL;
-    float depthR;
-    float intensity;
+
 
 private:
+    // creating smoothed values for every parameter
+    juce::SmoothedValue<float> previousdryWet {0.0f};
+    juce::SmoothedValue<float>  previousfeedback {0.0f};
+    juce::SmoothedValue<float>  previousrateL {0.0f};
+    juce::SmoothedValue<float>  previousrateR {0.0f};
+    juce::SmoothedValue<float>  previousdepthL {0.0f};
+    juce::SmoothedValue<float>  previousdepthR {0.0f};
+    juce::SmoothedValue<float>  previousintensity{0.0f};
+
+    // the actual realtime atomic float values of parameters, init with nullpointer for protection
+    std::atomic<float>* dryWet = nullptr;
+    std::atomic<float>* feedback  = nullptr;
+    std::atomic<float>* rateL = nullptr;
+    std::atomic<float>*  rateR = nullptr;
+    std::atomic<float>*  depthL = nullptr;
+    std::atomic<float>* depthR  = nullptr;
+    std::atomic<float>* intensity  = nullptr;
+
+    // mainvolume variabele
+    float mainVolume = 0.8f;
+
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FlangerAudioProcessor)
 };

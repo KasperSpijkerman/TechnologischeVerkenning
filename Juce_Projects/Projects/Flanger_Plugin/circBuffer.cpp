@@ -9,7 +9,8 @@ using namespace std;
 
 CircBuffer::CircBuffer(uint size) : buffer(new float[size]), currentSize(size)
 {
-
+    // setting all values to zero in the buffer.
+    memset(buffer, 0, sizeof(buffer));
 }
 
 CircBuffer::~CircBuffer()
@@ -29,7 +30,7 @@ float CircBuffer::output()
     // Interpolating output
     int i = (int) trunc (readHead);
     float factor = readHead - (float) i;
-    return Util::linearMap(factor, buffer[i], buffer[i + 1]);
+    return util.linearMap(factor, buffer[i], buffer[i + 1]);
 }
 
 // setting a distance between readheader and writeheader
@@ -38,9 +39,14 @@ void CircBuffer::setDistance (float distance)
     
     this->distance = distance;
     float readHeadBuffer = writeHead - distance;
-    if(readHeadBuffer < 0){
+    if(readHeadBuffer < 0) {
         readHead = readHeadBuffer + currentSize;
-    } else {
+    }
+    else if(readHeadBuffer > currentSize)
+    {
+        readHead = readHeadBuffer - currentSize;
+    }
+     else {
         readHead = readHeadBuffer;
     }
     

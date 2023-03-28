@@ -35,6 +35,7 @@ void LowpassHighpassFilter::processBlock(juce::AudioBuffer<float>& buffer, juce:
            const auto filterOutput = 0.5f * (inputSample + sign * allpassFilteredSample);
 
            channelSamples[i] = filterOutput;
+
        }
    }
 

@@ -1,2 +1,5 @@
-add_subdirectory(Test_Plugin)
-add_subdirectory(LowHighPassFilter)
+add_subdirectory(Tremolo)
+add_subdirectory(Waveshaper)
+add_subdirectory(Flanger_Plugin)
+add_subdirectory(LCR_Delay_Plugin)
+add_subdirectory(LCR_Delay_Def)

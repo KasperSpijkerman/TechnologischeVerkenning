@@ -29,6 +29,7 @@ protected:
     void deleteBuffer();
 
     float* buffer;
+    Util util;
     uint currentSize { 0 };
     float distance { 0 };
     uint writeHead { 0 };

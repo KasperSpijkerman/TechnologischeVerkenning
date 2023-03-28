@@ -3,10 +3,12 @@
 
 Delay::Delay() 
 {
+    delayBuffer = new CircBuffer(44100*20);
 }
-Delay::~Delay() 
+
+Delay::~Delay()
 {
-    delete delayBuffer;
+    deleteBuffer();
 }
 
 void Delay::prepareToPlay(double samplerate)
@@ -14,13 +16,15 @@ void Delay::prepareToPlay(double samplerate)
 	// setting the effect samplerate equal to given samplerate
 	samplerateFX = samplerate;
 	// create delaybuffer with a size 
-	delayBuffer = new CircBuffer(44100*20);
+    delayBuffer->setDistance(0);
 	setDryWet(1);
 }
 
+
+
 float Delay::output(float input)
 {
-	// giving the input to writehead with feedback 
+    // giving the input to writehead with feedback
     delayBuffer->input(input +(outputDelay*delayFeedback));
 	// reading output and store in variable
 	outputDelay = delayBuffer->output();
@@ -64,9 +68,7 @@ void Delay::setFeedback(float feedback)
 	}
 }
 
-
-// TODO create bypass
-void Delay::bypass (bool bypass) 
+void Delay::deleteBuffer()
 {
-
+    delete delayBuffer;
 }

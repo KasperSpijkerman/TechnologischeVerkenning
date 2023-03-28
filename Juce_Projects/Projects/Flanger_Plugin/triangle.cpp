@@ -3,10 +3,6 @@
 
 Triangle::Triangle(float frequency, float amplitude) : Oscillator(frequency, amplitude)
 {
- #if DEBUG
-  std::cout << "Triangle::Triangle constructor" << frequency << "\n";
-  
-#endif
 }
 
 void Triangle::calculate()

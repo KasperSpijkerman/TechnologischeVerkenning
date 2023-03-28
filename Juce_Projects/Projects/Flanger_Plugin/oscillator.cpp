@@ -4,16 +4,10 @@
 Oscillator::Oscillator(float frequency, float amplitude) : frequency(frequency),
                                                            amplitude(amplitude), phase(0), sample(0)
 {
-#if DEBUG
-  std::cout << "Oscillator - constructor\n";
-#endif
 }
 
 Oscillator::~Oscillator()
 {
-  #if DEBUG
-  std::cout << "Oscillator - destructor\n";
-  #endif
 }
 
 void Oscillator::setSamplerate(float samplerate)

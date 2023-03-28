@@ -11,8 +11,8 @@
 #include <iostream>
 
 //==============================================================================
-FlangerAudioProcessorEditor::FlangerAudioProcessorEditor (FlangerAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+FlangerAudioProcessorEditor::FlangerAudioProcessorEditor (FlangerAudioProcessor& p,juce::AudioProcessorValueTreeState& vts)
+    : AudioProcessorEditor (&p), valueTreeState (vts), audioProcessor (p)
 {
 
     // dry wet slider and label
@@ -31,19 +31,19 @@ FlangerAudioProcessorEditor::FlangerAudioProcessorEditor (FlangerAudioProcessor&
     feedbackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     feedbackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow,true,200,25);
     feedbackSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "feedback",feedbackSlider);
-    feedbackSlider.setTextValueSuffix (" feedback");
+    feedbackSlider.setTextValueSuffix (" Feedback");
     // labels for text attached to slider
     feedbackLabel.setText ("Feedback", juce::dontSendNotification);
     feedbackLabel.attachToComponent (&feedbackSlider, true);
     feedbackLabel.setJustificationType(juce::Justification::topLeft);
     // adding the actual slider
     addAndMakeVisible(feedbackSlider);
-    setSize (800, 800);
+
 
     // rate L slider and label
     rateLSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     rateLSlider.setTextBoxStyle(juce::Slider::TextBoxBelow,true,200,25);
-    rateLSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "rateL",rateLSlider);
+    rateLSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "ratel",rateLSlider);
     rateLSlider.setTextValueSuffix (" Rate L");
     // labels for text attached to slider
     rateLLabel.setText ("Rate L", juce::dontSendNotification);
@@ -55,7 +55,7 @@ FlangerAudioProcessorEditor::FlangerAudioProcessorEditor (FlangerAudioProcessor&
     // rate R slider and label
     rateRSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     rateRSlider.setTextBoxStyle(juce::Slider::TextBoxBelow,true,200,25);
-    rateRSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "rateR",rateRSlider);
+    rateRSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "rater",rateRSlider);
     rateRSlider.setTextValueSuffix (" Rate R");
     // labels for text attached to slider
     rateRLabel.setText ("Rate R", juce::dontSendNotification);
@@ -67,7 +67,7 @@ FlangerAudioProcessorEditor::FlangerAudioProcessorEditor (FlangerAudioProcessor&
     // rate R slider and label
     depthLSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     depthLSlider.setTextBoxStyle(juce::Slider::TextBoxBelow,true,200,25);
-    depthLSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "depthL",depthLSlider);
+    depthLSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "depthl",depthLSlider);
     depthLSlider.setTextValueSuffix (" Depth L");
     // labels for text attached to slider
     depthLLabel.setText ("Depth L", juce::dontSendNotification);
@@ -79,7 +79,7 @@ FlangerAudioProcessorEditor::FlangerAudioProcessorEditor (FlangerAudioProcessor&
     // rate R slider and label
     depthRSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     depthRSlider.setTextBoxStyle(juce::Slider::TextBoxBelow,true,200,25);
-    depthRSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "depthR",depthRSlider);
+    depthRSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "depthr",depthRSlider);
     depthRSlider.setTextValueSuffix (" Depth R");
     // labels for text attached to slider
     depthRLabel.setText ("Depth R", juce::dontSendNotification);
@@ -96,14 +96,28 @@ FlangerAudioProcessorEditor::FlangerAudioProcessorEditor (FlangerAudioProcessor&
     // labels for text attached to slider
     intensityLabel.setText ("Intensity", juce::dontSendNotification);
     intensityLabel.attachToComponent (&intensitySlider, true);
-    intensityLabel.setJustificationType(juce::Justification::centredTop);
+    intensityLabel.setJustificationType(juce::Justification::topLeft);
     // adding the actual slider
     addAndMakeVisible(intensitySlider);
+
+    // OSC Port
+    if (! connect (7779))
+    {
+        // showing error if it is not connected
+        showConnectionErrorMessage ("Error: could not connect to UDP port 7779.");
+    }
+    // adding listeners for the parameters.
+    juce::OSCReceiver::addListener(this, "/ZIGSIM/1234/compass");
+    juce::OSCReceiver::addListener(this, "/ZIGSIM/1234/touch02");
+    juce::OSCReceiver::addListener(this, "/ZIGSIM/1234/facemouthsmileleft");
+
+    // setting size of canvas.
+    setSize (800, 800);
+
 }
 
 FlangerAudioProcessorEditor::~FlangerAudioProcessorEditor()
-{
-}
+{}
 
 //==============================================================================
 void FlangerAudioProcessorEditor::paint (juce::Graphics& g)
@@ -125,15 +139,121 @@ void FlangerAudioProcessorEditor::paint (juce::Graphics& g)
 void FlangerAudioProcessorEditor::resized()
 {
     // layout sliders
-    drywetSlider.setBounds(getWidth()/8.2,getHeight()/2,200,100);
-    feedbackSlider.setBounds(getWidth()/1.4,getHeight()/2,200,100);
-    rateLSlider.setBounds(getWidth()/8.2,getHeight()/4,200,100);
-    rateRSlider.setBounds(getWidth()/1.4,getHeight()/4,200,100);
-    depthLSlider.setBounds(getWidth()/8.2,getHeight()/1.2,200,100);
-    depthRSlider.setBounds(getWidth()/1.4,getHeight()/1.2,200,100);
-    intensitySlider.setBounds(getWidth()/2.5,getHeight()/1.2,200,100);
+    drywetSlider.setBounds(getWidth() / 8.2, getHeight() / 2.0, 200, 100);
+    feedbackSlider.setBounds(getWidth() / 1.4, getHeight() / 2.0, 200, 100);
+    rateLSlider.setBounds(getWidth() / 8.2, getHeight() / 4.0, 200, 100);
+    rateRSlider.setBounds(getWidth() / 1.4, getHeight() / 4.0, 200, 100);
+    depthLSlider.setBounds(getWidth() / 8.2, getHeight() / 1.2, 200, 100);
+    depthRSlider.setBounds(getWidth() / 1.4, getHeight() / 1.2, 200, 100);
+    intensitySlider.setBounds(getWidth() / 2.5, getHeight() / 1.2, 200, 100);
 
-    // set the color to red 
+    // set the color to red
     getLookAndFeel().setColour (juce::Slider::thumbColourId, juce::Colours::deeppink);
 }
 
+// Function for receiving OSC and getting the messages.
+void FlangerAudioProcessorEditor::oscMessageReceived (const juce::OSCMessage& message)
+{
+    if (message.size() == 1 && message[0].isFloat32())   {}
+    OSCAddressPattern compassPattern("/ZIGSIM/1234/compass");
+    OSCAddressPattern touch02Pattern("/ZIGSIM/1234/touch02");
+    OSCAddressPattern smilePattern("/ZIGSIM/1234/facemouthsmileleft");
+
+    OSCAddress messageAddress(message.getAddressPattern().toString());
+
+    if (compassPattern.matches(messageAddress))
+    {
+        // receiving compass with 360 and creating variabele for one full rotation
+        float compassOneRotation = util.mapInRange(message[0].getFloat32(),0,360,0,100.0f);
+        // degrees for feedback scaling it according to rotationfactor
+        float degreesFB = (message[0].getFloat32()+(rotationFactor * 360));
+        float degreesRate = (message[0].getFloat32()+(compassRotations * 360));
+        // scaling feedback according to 4 max rotations, making it more dynamic
+        float feedbackCOSC = util.mapInRange(degreesFB,1,1080,0,0.90);
+        // scaling feedback according to 6 max rotations, making it more dynamic
+        float rateOSC = util.mapInRange(degreesRate,1,1440,0,0.99);
+        feedbackSlider.setValue (juce::jlimit (0.0f, 0.90f,feedbackCOSC ));
+        rateLSlider.setValue(juce::jlimit (0.1f, 4.9f, rateOSC));
+        rateRSlider.setValue(juce::jlimit (0.0f, 5.0f, rateOSC));
+
+        if(compassOneRotation>95.0)
+        {
+            tippingpoint = true;
+        }
+
+        if(tippingpoint&&compassOneRotation < 3.0)
+        {
+            compassRotations++;
+            rotationFactor++;
+            tippingpoint = false;
+        }
+        if (compassRotations >4)
+        {
+            compassRotations = 0;
+        }
+
+        if (rotationFactor > 3)
+        {
+            rotationFactor = 0;
+        }
+
+
+
+    }
+    // comparing messages to touch02 (y coordinate) address and changing intensity slider
+    if (touch02Pattern.matches(messageAddress))
+    {
+        // intensity changing based on y coordinate
+        float yCoordinate = message[0].getFloat32();
+        float intensityOSC = util.mapInRange(yCoordinate,-1,1,20,1);
+
+        intensitySlider.setValue (juce::jlimit (0.0f, 20.0f, intensityOSC));
+    }
+
+    if (smilePattern.matches(messageAddress))
+    {
+        bool drywet = false;
+        bool currentState = false;
+        bool previousState = false;
+        bool smile = false;
+        float drywetOSC {0};
+
+        if(message[0].getFloat32() > 0.3)
+        {
+            smile = true;
+        }
+        else
+        {
+            smile = false;
+        }
+        currentState = smile;
+
+        if (previousState != currentState)
+        {
+            if (smile)
+            {
+                drywet = !drywet;
+            }
+            previousState = currentState;
+        }
+        if (drywet)
+        {
+            drywetOSC = 0.2;
+        }
+        else
+        {
+
+            drywetOSC = 0.8;
+        }
+        drywetSlider.setValue (juce::jlimit (0.0f, 20.0f,drywetOSC));
+    }
+}
+
+// debug OSC connection
+void FlangerAudioProcessorEditor::showConnectionErrorMessage (const juce::String& messageText)
+{
+    juce::AlertWindow::showMessageBoxAsync (juce::AlertWindow::WarningIcon,
+                                            "Connection error",
+                                            messageText,
+                                            "OK");
+}

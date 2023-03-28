@@ -20,13 +20,13 @@ void Flanger::prepareToPlay(double sampleRate)
             oscillator.setSamplerate(sampleRate);
         }
         // setting dry wet
-        setDryWet(0.5);
+        setDryWet(0.0f);
         // setting the feedback
         setFeedback(flangeFeedback);
 }
 
 //  ticking the oscillators and calculating modulation for both
-void Flanger::calcMod(uint channel)
+void Flanger::calcMod(int channel)
 {
     //ticking both oscillators
     oscillators[channel].tick();
@@ -37,7 +37,7 @@ void Flanger::calcMod(uint channel)
 }
 
 // giving the input and channel to output function
-float Flanger::output(float input,uint channel)
+float Flanger::output(float input,int channel =0)
 {
     // calculating the modulation and giving output based on input and dry wet
     calcMod(channel);
